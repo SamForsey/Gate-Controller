@@ -37,8 +37,9 @@ if (digitalRead(gateInput) == HIGH) {
 if(digitalRead(gateInput) == LOW) {
   gateControl = 0;
 }
+
 //Gate Opening ramp up
-if (gateControl == 1 &&digitalRead(gateClosed) == HIGH) { //Gate must be closed in order to begin opening
+if (gateControl == 1 &&digitalRead(gateClosed) == HIGH &&motorDutyCycle == 0) { //Gate must be closed in order to begin opening
 rampUp = true; 
 rampDown = false;
 digitalWrite(gateDir, HIGH);
@@ -52,7 +53,7 @@ digitalWrite(gateDir, HIGH);
 }
 
 //Gate closing ramp up
-if (gateControl == 1 &&digitalRead(gateOpen) == HIGH) { //Gate must be open in order to begin closing
+if (gateControl == 1 &&digitalRead(gateOpen) == HIGH &&motorDutyCycle == 0) { //Gate must be open in order to begin closing
 rampUp = true; 
 rampDown = false;
 digitalWrite(gateDir, LOW);
@@ -73,8 +74,6 @@ if(rampUp == true && motorDutyCycle < 255) {
 if(rampDown == true && motorDutyCycle > 0) {
   motorDutyCycle = motorDutyCycle -1;
 }
-
-
 
 analogWrite(driveMotor, motorDutyCycle); 
 

@@ -33,22 +33,25 @@ void loop() {
 
 if (digitalRead(gateInput) == HIGH) {
   gateControl = 1;
+  
 }
 if(digitalRead(gateInput) == LOW) {
   gateControl = 0;
+  
 }
 
 //Gate Opening ramp up
-if (gateControl == 1 &&digitalRead(gateClosed) == HIGH &&motorDutyCycle == 0) { //Gate must be closed in order to begin opening
+if (gateControl == 1 &&digitalRead(gateClosed) == HIGH &&motorDutyCycle == 0) { //Gate must be closed and stationary in order to begin opening
 rampUp = true; 
 rampDown = false;
 digitalWrite(gateDir, HIGH);
+
 }
 //Gate opening ramp down
-if (digitalRead (gateOpen) == HIGH && motorDutyCycle >0) { //gate hits closing switch, and gate is moving, then decel happens
+if (digitalRead (gateOpen) == HIGH && digitalRead(gateDir) == HIGH &&motorDutyCycle >0 ) { //gate hits closing switch, and gate is moving, then decel happens
 rampUp = false;
 rampDown = true;
-digitalWrite(gateDir, HIGH);
+
 
 }
 
@@ -57,13 +60,15 @@ if (gateControl == 1 &&digitalRead(gateOpen) == HIGH &&motorDutyCycle == 0) { //
 rampUp = true; 
 rampDown = false;
 digitalWrite(gateDir, LOW);
+
 }
 
 //Gate closing ramp down
-if (digitalRead (gateClosed) == HIGH && motorDutyCycle >0) { //gate hits closing switch, and gate is moving, then decel happens
+if (digitalRead (gateClosed) == HIGH && digitalRead(gateDir) == LOW &&motorDutyCycle >0) { //gate hits closing switch, and gate is moving, then decel happens
 rampUp = false;
 rampDown = true;
 digitalWrite(gateDir, LOW);
+
 
 }
 
@@ -79,5 +84,6 @@ analogWrite(driveMotor, motorDutyCycle);
 
 delay(10);
 
-Serial.println(gateControl); 
+Serial.println(digitalRead(gateOpen)); 
+delay(1);
 }

@@ -40,8 +40,11 @@ if(digitalRead(gateInput) == LOW) {
   
 }
 //Safety switch to prevent overrun/ can be pressed to stop gate from running
-if (digitalRead(gateEmergency) == HIGH &&motorDutyCycle >0)
-analogWrite(driveMotor, 0);
+if (digitalRead(gateEmergency) == HIGH &&motorDutyCycle >0){
+motorDutyCycle = 0;
+rampUp = false;
+rampDown = false;
+}
 
 //Gate Opening ramp up
 if (gateControl == 1 &&digitalRead(gateClosed) == HIGH &&motorDutyCycle == 0) { //Gate must be closed and stationary in order to begin opening
@@ -87,6 +90,6 @@ analogWrite(driveMotor, motorDutyCycle);
 
 delay(10);
 
-Serial.println(digitalRead(gateOpen)); 
+Serial.println(motorDutyCycle); 
 delay(1);
 }

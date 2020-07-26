@@ -1,9 +1,9 @@
 
 int driveMotor = 3; //PWM output for speed controller
-int motorDutyCycle = 0;
-int gateDir = 13; //Gate direction output for speed controller
+int motorDutyCycle = 0; //variable to be used for code
+int gateDir = 2; //Gate direction output for speed controller
 
-int gateInput = 2; //Input for gate open/close demand
+int gateInput = 7; //Input for gate open/close demand
 int gateControl = 0; //Variable to be used for code
 
 int gateOpen = 4; //Switch input when gate is open
@@ -20,7 +20,7 @@ void setup() {
 pinMode(driveMotor, OUTPUT);
 pinMode(gateInput, INPUT);
 pinMode(gateOpen, INPUT);
-pinMode(gateClosed, INPUT);
+pinMode(gateClosed, INPUT); 
 pinMode(gateDir, OUTPUT);
 pinMode(gateEmergency, INPUT);
 
@@ -39,6 +39,9 @@ if(digitalRead(gateInput) == LOW) {
   gateControl = 0;
   
 }
+//Safety switch to prevent overrun/ can be pressed to stop gate from running
+if (digitalRead(gateEmergency) == HIGH &&motorDutyCycle >0)
+analogWrite(driveMotor, 0);
 
 //Gate Opening ramp up
 if (gateControl == 1 &&digitalRead(gateClosed) == HIGH &&motorDutyCycle == 0) { //Gate must be closed and stationary in order to begin opening
@@ -67,7 +70,7 @@ digitalWrite(gateDir, LOW);
 if (digitalRead (gateClosed) == HIGH && digitalRead(gateDir) == LOW &&motorDutyCycle >0) { //gate hits closing switch, and gate is moving, then decel happens
 rampUp = false;
 rampDown = true;
-digitalWrite(gateDir, LOW);
+
 
 
 }

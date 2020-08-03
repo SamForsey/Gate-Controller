@@ -4,6 +4,7 @@ int motorDutyCycle = 0; //variable to be used for code
 int gateDir = 2; //Gate direction output for speed controller
 
 int gateInput = 7; //Input for gate open/close demand
+int gateInputExtra = 8; //Input for gate open/close demand extra
 int gateControl = 0; //Variable to be used for code
 
 int gateOpen = 4; //Switch input when gate is open
@@ -31,11 +32,11 @@ Serial.begin(9600);
 void loop() {
   // put your main code here, to run repeatedly:
 
-if (digitalRead(gateInput) == HIGH) {
+if (digitalRead(gateInput) == HIGH && (digitalRead(gateInputExtra) == HIGH)) {
   gateControl = 1;
   
 }
-if(digitalRead(gateInput) == LOW) {
+if(digitalRead(gateInput) == LOW && (digitalRead(gateInputExtra) == HIGH)) {
   gateControl = 0;
   
 }

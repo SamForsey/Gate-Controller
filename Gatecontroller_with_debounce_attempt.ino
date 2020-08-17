@@ -41,12 +41,13 @@ void loop() {
 if (openCommand != lastButtonState){
   lastDebounceTime = millis();
 }
+
 if ((millis() - lastDebounceTime) > debounceDelay) {   
 gateControl = openCommand;
-lastButtonState = openCommand;
-  
 }
-
+if (openCommand != lastButtonState){
+  lastButtonState = openCommand;
+}
 
 if (digitalRead(gateInput) == HIGH && (digitalRead(gateInputExtra) == HIGH)) {
   openCommand = 1;
@@ -107,6 +108,6 @@ analogWrite(driveMotor, motorDutyCycle);
 
 delay(10);
 
-Serial.println(lastButtonState); 
+Serial.println(gateControl); 
 delay(1);
 }

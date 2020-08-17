@@ -17,9 +17,9 @@ bool rampUp = false; //Gate state - accel up to speed
 bool rampDown = false; //Gate state - decel to a stop
 
 //Debounce related
-int lastButtonState = LOW;
+int lastButtonState = 0;
 unsigned long lastDebounceTime = 0;
-unsigned long debounceDelay = 1500;
+unsigned long debounceDelay = 1000;
 
 void setup() {
   // put your setup code here, to run once:
@@ -37,20 +37,15 @@ Serial.begin(9600);
 void loop() {
   // put your main code here, to run repeatedly:
 
- 
 //Debounce gateControl variable 
-
 if (openCommand != lastButtonState){
   lastDebounceTime = millis();
 }
-if ((millis() - lastDebounceTime) > debounceDelay) {
-     if (gateControl != lastButtonState) {
+if ((millis() - lastDebounceTime) > debounceDelay) {   
 gateControl = openCommand;
-   }
+lastButtonState = openCommand;
+  
 }
-
-
-
 
 
 if (digitalRead(gateInput) == HIGH && (digitalRead(gateInputExtra) == HIGH)) {
@@ -112,6 +107,6 @@ analogWrite(driveMotor, motorDutyCycle);
 
 delay(10);
 
-Serial.println(motorDutyCycle); 
+Serial.println(lastButtonState); 
 delay(1);
 }

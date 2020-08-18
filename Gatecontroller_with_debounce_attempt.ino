@@ -52,7 +52,7 @@ if (openCommand != lastButtonState){
 if (digitalRead(gateInput) == HIGH && (digitalRead(gateInputExtra) == HIGH)) {
   openCommand = 1;
 }
-if(digitalRead(gateInput) == LOW && (digitalRead(gateInputExtra) == LOW)) {
+if(digitalRead(gateInput) == LOW || (digitalRead(gateInputExtra) == LOW)) {
   openCommand = 0;
 }
 
@@ -108,6 +108,6 @@ analogWrite(driveMotor, motorDutyCycle);
 
 delay(10);
 
-Serial.println(gateControl); 
+Serial.println(digitalRead(gateClosed)); 
 delay(1);
 }

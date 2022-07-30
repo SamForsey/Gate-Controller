@@ -1,8 +1,10 @@
 OVERVIEW
 
+
 Gate controller was designed as a way to control a gate automatically; using safety switch inputs, limit switches and a keyfob to safely open and close the gate.
 
 HOW IT WORKS
+
 
 It uses an Arduino to output a PWM signal (driveMotor) to operate an electronic speed controller (ESC). 
 
